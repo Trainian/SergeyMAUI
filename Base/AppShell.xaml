@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Base.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Base.Views"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Домашняя"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Icon="home.svg"
+        Route="MainPage"/>
+    <ShellContent
+        Title="Сканирование"
+        ContentTemplate="{DataTemplate local:ScanPage}"
+        Icon="webcam.svg"
+        Route="ScanPage"/>
+    <ShellContent
+        Title="Голосовой помощник"
+        ContentTemplate="{DataTemplate local:SpeechPage}"
+        Icon="mic.svg"
+        Route="SpeechPage"/>
+
+</Shell>

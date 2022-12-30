@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Base.ViewModels"
+             x:Class="Base.Views.SpeechPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:SpeechPageViewModel x:Key="speechText" SpeechText="Нажмите 'Распознать' и говорите..."/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid Margin="10,0,0,10" BindingContext="{StaticResource speechText}">
+        <Label 
+            x:Name="recon"
+            Text="{Binding Path=SpeechText}" 
+           HorizontalOptions="Center"
+           VerticalOptions="Center" />
+        <Button x:Name="start"
+            VerticalOptions="End"
+            HeightRequest="50"
+            Text="Распознать"
+            Margin="10,0,10,20"
+            Clicked="Start_Clicked"/>
+    </Grid>
+</ContentPage>

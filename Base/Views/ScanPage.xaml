@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="Base.Views.ScanPage"
+             xmlns:local="clr-namespace:Base.ViewModels">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Фонарик" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ScanPageViewModel x:Key="scanText" ScanText="Текст сканирования..."/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid BindingContext="{StaticResource scanText}" >
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <zxing:CameraBarcodeReaderView x:Name="ZXingCamera"
+            Grid.Row="0"
+
+            BarcodesDetected="BarcodesDetected"/>
+
+        <Label x:Name="lbScanText"
+            Grid.Row="1"
+            Text="{Binding Path=ScanText}"
+            BackgroundColor="Azure"
+            FontSize="18"
+            Opacity="0.6"
+            VerticalTextAlignment="Center"
+            HorizontalTextAlignment="Center"
+            VerticalOptions="Fill" 
+            HorizontalOptions="Fill"/>
+        
+    </Grid>
+</ContentPage>
