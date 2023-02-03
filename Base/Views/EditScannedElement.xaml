@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Base.Views.EditScannedElement"
+             Title="Редактирование">
+    <VerticalStackLayout
+        Padding="15,0,15,0"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center"
+        Spacing="10">
+        <Frame>
+            <VerticalStackLayout>
+                <Label 
+            Text="Штрихкод"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Entry x:Name="ScannedCode" 
+                Text="{Binding ScannedCode}"
+                HorizontalOptions="Center"
+                FontSize="21"
+                Keyboard="Numeric"
+                IsEnabled="False"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame>
+            <VerticalStackLayout>
+                <Label 
+            Text="Наименование"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Editor x:Name="Name" 
+                Text="{Binding Name}"
+                HeightRequest="100"
+                FontSize="16"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame>
+            <VerticalStackLayout>
+                <Label 
+            Text="Кол-во остаток"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Entry x:Name="CountLeft" 
+                Text="{Binding QuantityLeft}"
+                HorizontalOptions="Center"
+                FontSize="21"
+                Keyboard="Numeric"
+                MinimumWidthRequest="21"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Frame>
+            <VerticalStackLayout>
+                <Label 
+            Text="Цена"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Entry x:Name="Price" 
+                Text="{Binding Price}"
+                HorizontalOptions="Center"
+                FontSize="21"
+                Keyboard="Numeric"
+                MinimumWidthRequest="21"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <Frame>
+            <VerticalStackLayout>
+                <Label 
+            Text="Кол-во сканирования"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+                <Entry x:Name="CountChoise" 
+                Text="{Binding CountChoise}"
+                HorizontalOptions="Center"
+                FontSize="21"
+                Keyboard="Numeric"
+                MinimumWidthRequest="21"/>
+            </VerticalStackLayout>
+        </Frame>
+
+    </VerticalStackLayout>
+</ContentPage>

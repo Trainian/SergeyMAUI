@@ -24,7 +24,7 @@ namespace Base.ViewModels
                     _scanText = value;
                     OnPropertyChanged();
                 }
-            } 
+            }
         }
 
         public void OnPropertyChanged([CallerMemberName] string name = "") =>

@@ -1,5 +1,7 @@
-﻿using Base.Interfaces;
+﻿using BarcodeScanner.Mobile.Maui;
+using Base.Interfaces;
 using Base.Platforms;
+using Base.Services;
 using Base.Views;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui;
@@ -15,12 +17,13 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseBarcodeReader()
-			.ConfigureMauiHandlers(e =>
+            .ConfigureMauiHandlers(e =>
 			{
 				e.AddHandler(typeof(CameraBarcodeReaderView), typeof(CameraBarcodeReaderViewHandler));
-				e.AddHandler(typeof(CameraView), typeof(CameraViewHandler));
+				e.AddHandler(typeof(ZXing.Net.Maui.Controls.CameraView), typeof(ZXing.Net.Maui.CameraViewHandler));
 				e.AddHandler(typeof(BarcodeGeneratorView), typeof(BarcodeGeneratorViewHandler));
-			})
+                e.AddBarcodeScannerHandler();
+            })
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -33,8 +36,11 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<SpeechPage>();
-		builder.Services.AddSingleton<ScanPage>();
+        builder.Services.AddSingleton<ScanPage>();
+        builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddTransient<ISpeechToText, SpeechToTextService>();
+		builder.Services.AddTransient<IUserSettingsService, UserSettingsService>();
+		builder.Services.AddTransient<IScanApiService, ScanApiService>();
 
 		return builder.Build();
 	}

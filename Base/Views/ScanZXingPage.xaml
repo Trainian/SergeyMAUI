@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Base.Views.ScanPage"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="Base.Views.ScanZXingPage"
              xmlns:local="clr-namespace:Base.ViewModels"
-             xmlns:scaner="clr-namespace:BarcodeScanner.Mobile.Maui;assembly=BarcodeScanner.Mobile.Maui">
+             Shell.TabBarIsVisible="True"
+             Shell.NavBarHasShadow="True">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Фонарик" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
@@ -17,8 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="65"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
 
         <Image x:Name="imgVerification" 
@@ -43,16 +44,9 @@
             VerticalOptions="Fill" 
             HorizontalOptions="Fill"/>
 
-        <scaner:CameraView
-            x:Name="Scaner"
-            Grid.Row="1"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand"            
-            TorchOn="False"
-            VibrationOnDetected="True"
-            ScanInterval="50"
-            Scale="2.0"
-            OnDetected="CameraView_OnDetected"/>
+        <zxing:CameraBarcodeReaderView x:Name="ZXingCamera"
+            Grid.RowSpan="3"
+            BarcodesDetected="BarcodesDetected"/>
 
         <Grid 
             Grid.Row="2" 
@@ -72,13 +66,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Text="Редактировать" Grid.Row="0" Grid.Column="0" Clicked="ButtonEdit_Clicked"/>
+            <Button Text="Информация" Grid.Row="0" Grid.Column="0" Clicked="ButtonInfrormation_Clicked"/>
             <Button Text="Список" Grid.Row="0" Grid.Column="1" Clicked="ButtonList_Clicked"/>
-            <!--<Button Text="Отправить" Grid.Row="1" Grid.ColumnSpan="2" Clicked="ButtonSend_Clicked"/>-->
-
-            <HorizontalStackLayout>
-                
-            </HorizontalStackLayout>
+            <Button Text="Отправить" Grid.Row="1" Grid.ColumnSpan="2" Clicked="ButtonSend_Clicked"/>
         </Grid>
+
     </Grid>
 </ContentPage>

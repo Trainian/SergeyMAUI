@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Base.Views.SettingsPage"
+             Title="Настройки">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0" Spacing="25">
+            <VerticalStackLayout>
+                <Label Text="Логин*"/>
+                <Entry x:Name="Login"
+               BackgroundColor="AliceBlue" />
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Пароль*"/>
+                <Entry x:Name="Password"
+               BackgroundColor="AliceBlue" />
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Строка подключения*"/>
+                <Entry x:Name="ConnectionString"
+               BackgroundColor="AliceBlue" />
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Срок оплаты"/>
+                <Entry x:Name="PayDate"
+               IsReadOnly="true"
+               BackgroundColor="AliceBlue"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Ваш идентификатор"/>
+                <Entry x:Name="Guid"
+               IsReadOnly="true"
+               BackgroundColor="AliceBlue"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="10">
+            <Button x:Name="ChooseSettings"
+                Text="Проверить настройки"
+                    Clicked="ChooseSettings_Clicked"/>
+            <Button x:Name="Save"
+                Text="Сохранить"
+                    Clicked="Save_Clicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

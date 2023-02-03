@@ -19,8 +19,6 @@ public partial class MainPage : ContentPage
 			CounterBtn.Text = $"Кликов: {count}, хватит?";
         else if (count > 10)
             CounterBtn.Text = $"Кликов: {count}, ПРЕКРАТИ... мне щикотно !";
-
-		
-    }
+	}
 }
 
