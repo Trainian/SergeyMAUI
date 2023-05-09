@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Base.ViewModels
 {
@@ -14,9 +9,10 @@ namespace Base.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string SpeechText { 
+        public string SpeechText
+        {
             get => _speechText;
-            set 
+            set
             {
                 if (_speechText != value)
                 {

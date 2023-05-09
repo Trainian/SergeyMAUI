@@ -1,42 +1,46 @@
 ﻿using Base.Interfaces;
 using Base.Models;
-using System;
-using System.Collections.Generic;
+using Base.Static;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Base.Services
 {
     public class UserSettingsService : IUserSettingsService
     {
-        public Task<UserSettings> GetUserSettings()
+        public Task<UserSettings> GetUserSettingsAsync()
         {
-            if (Preferences.Get("Login", "") == "")
+            if (Preferences.Get(PreferencesProgram.Login, "") == "")
                 return Task.FromResult(new UserSettings());
 
             var userSettings = new UserSettings();
-            userSettings.Login = Preferences.Get("Login", "NotSet");
-            userSettings.Password = Preferences.Get("Password", "NotSet");
-            userSettings.Guid = Preferences.Get("Guid", "NotSet");
-            userSettings.ConnectionString = Preferences.Get("ConnectionString", "NotSet");
+            userSettings.Login = Preferences.Get(PreferencesProgram.Login, "");
+            userSettings.Password = Preferences.Get(PreferencesProgram.Password, "");
+            userSettings.Guid = Preferences.Get(PreferencesProgram.Guid, "");
+            userSettings.PayDate = Preferences.Get(PreferencesProgram.PayDate, "");
+            userSettings.ConnectionString = Preferences.Get(PreferencesProgram.ConnectionString, "");
+            userSettings.Organization = Preferences.Get(PreferencesProgram.Organization, "");
+            userSettings.Warehouse = Preferences.Get(PreferencesProgram.Warehouse, "");
+            userSettings.TypeOfPrices = Preferences.Get(PreferencesProgram.TypeOfPrices, "");
             return Task.FromResult(userSettings);
         }
 
-        public Task<bool> SetUserSettings(UserSettings userSettings)
+        public Task<bool> SaveUserSettingsAsync(UserSettings userSettings)
         {
             try
             {
-                Preferences.Set("Login", userSettings.Login);
-                Preferences.Set("Password", userSettings.Password);
-                Preferences.Set("Guid", userSettings.Guid);
-                Preferences.Set("ConnectionString", userSettings.ConnectionString);
+                Preferences.Set(PreferencesProgram.Login, userSettings.Login);
+                Preferences.Set(PreferencesProgram.Password, userSettings.Password);
+                Preferences.Set(PreferencesProgram.Guid, userSettings.Guid);
+                Preferences.Set(PreferencesProgram.PayDate, userSettings.PayDate);
+                Preferences.Set(PreferencesProgram.ConnectionString, userSettings.ConnectionString);
+                Preferences.Set(PreferencesProgram.Organization, userSettings.Organization);
+                Preferences.Set(PreferencesProgram.Warehouse, userSettings.Warehouse);
+                Preferences.Set(PreferencesProgram.TypeOfPrices, userSettings.TypeOfPrices);
                 return Task.FromResult(true);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Ошибка записи настроек {ex.Message}");
+                Debug.WriteLine($"Ошибка записи настроек: {ex.Message}");
                 return Task.FromResult(false);
             }
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="this"
+             x:Class="Base.CustomControls.LoadControl">
+    <Frame>
+        <VerticalStackLayout>
+            <ActivityIndicator IsRunning="True" Color="{Binding Source={Reference this}, Path=IndicatorColor}"/>
+            <Label Text="{Binding Source={Reference this}, Path=IndicatorText}" HorizontalTextAlignment="Center"/>
+        </VerticalStackLayout>
+    </Frame>
+</StackLayout>

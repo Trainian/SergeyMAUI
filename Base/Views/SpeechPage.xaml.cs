@@ -1,8 +1,5 @@
 using Base.Interfaces;
-using Base.Platforms;
 using Base.ViewModels;
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Maui;
 
 namespace Base.Views;
 
@@ -13,8 +10,8 @@ public partial class SpeechPage : ContentPage
 
     [Obsolete]
     public SpeechPage(ISpeechToText speechToText)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _speechModel = Resources["speechText"] as SpeechPageViewModel;
 
         try

@@ -2,10 +2,12 @@
 
 	<PropertyGroup>
 		<!--<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>-->
+		<!--<TargetFrameworks>net7.0-android33.0</TargetFrameworks>-->
 		<TargetFrameworks>net7.0-android</TargetFrameworks>
+		<TargetFrameworks>$(TargetFrameworks);net7.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
-		<OutputType>Exe</OutputType>
+		<OutputType Condition="'$(TargetFramework)' != 'net7.0'">Exe</OutputType>
 		<RootNamespace>Base</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -15,7 +17,7 @@
 		<ApplicationTitle>Base</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.base</ApplicationId>
+		<ApplicationId>com.companynameSergey.base</ApplicationId>
 		<ApplicationIdGuid>0c92234f-4c86-4518-bbb8-01e8b6885771</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -25,18 +27,23 @@
 		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>-->
 		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>-->
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>-->
+		<!--<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>-->
 		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <RunAOTCompilation>True</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	  <TrimMode>link</TrimMode>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <EnableLLVM>True</EnableLLVM>
+	  <TrimMode>link</TrimMode>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -57,38 +64,59 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	
+	<ItemGroup Condition="(  '$(TargetFramework)' == 'net7.0-android' )">
+		<PackageReference Include="Xamarin.Google.MLKit.BarcodeScanning" Version="117.0.2.2">
+		</PackageReference>
+	</ItemGroup>
+
 	<ItemGroup>
+	  <None Remove="Resources\Images\barcode.svg" />
+	  <None Remove="Resources\Images\downarrow.svg" />
+	  <None Remove="Resources\Images\edit.svg" />
+	  <None Remove="Resources\Images\flashlight.svg" />
 	  <None Remove="Resources\Images\loading.gif" />
+	  <None Remove="Resources\Images\qrcode.svg" />
+	  <None Remove="Resources\Images\remove.svg" />
+	  <None Remove="Resources\Images\uparrow.svg" />
 	  <None Remove="Resources\Images\verification.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+		<PackageReference Include="BarcodeScanner.Mobile.Maui" Version="6.3.0.25-pre" />
+		<PackageReference Include="Camera.MAUI" Version="1.3.5" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="ZXing.Net.Maui" Version="0.3.0-preview.1" />
-		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.3.0-preview.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="Platforms\iOS\SpeechToTextService.cs">
 	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
 	  </Compile>
-	  <Compile Update="Views\ScanZXingPage.xaml.cs">
-	    <DependentUpon>ScanZXingPage.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\ScanPage.xaml.cs">
 	    <DependentUpon>ScanPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ScanPage2.xaml.cs">
+	    <DependentUpon>ScanPage2.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CustomControls\LoadControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CustomControls\MessagePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EditScannedElement.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ScanZXingPage.xaml">
+	  <MauiXaml Update="Views\ScanPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ScanPage.xaml">
+	  <MauiXaml Update="Views\ScanPage2.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ScannedList.xaml">
@@ -100,16 +128,6 @@
 	  <MauiXaml Update="Views\SpeechPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Static\" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-	  <PackageReference Include="BarcodeScanner.Mobile.Maui">
-	    <Version>6.3.0.23-pre</Version>
-	  </PackageReference>
 	</ItemGroup>
 
 </Project>

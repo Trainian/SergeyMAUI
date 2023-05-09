@@ -1,27 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Base.Enums;
+using Base.Models;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Base.ViewModels
 {
     public class ScanPageViewModel : INotifyPropertyChanged
     {
-        private string _scanText = "";
+        private ScanChoose _scanChoose = ScanChoose.Штрихкод;
+        private ScanElement _scanElement;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string ScanText 
-        { 
-            get => _scanText; 
+        public ScanElement ScanElement 
+        {
+            get => _scanElement;
             set
             {
-                if(_scanText != value)
+                if (_scanElement != value)
                 {
-                    _scanText = value;
+                    _scanElement = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        public ScanChoose ScanChoose
+        {
+            get => _scanChoose;
+            set
+            {
+                if (_scanChoose != value)
+                {
+                    _scanChoose = value;
                     OnPropertyChanged();
                 }
             }
@@ -29,5 +41,6 @@ namespace Base.ViewModels
 
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
     }
 }

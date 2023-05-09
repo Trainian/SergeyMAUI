@@ -1,60 +1,160 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="Base.Views.ScanPage"
              xmlns:local="clr-namespace:Base.ViewModels"
-             xmlns:scaner="clr-namespace:BarcodeScanner.Mobile.Maui;assembly=BarcodeScanner.Mobile.Maui">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Фонарик" Clicked="ToolbarItem_Clicked"/>
-    </ContentPage.ToolbarItems>
+             xmlns:scaner="clr-namespace:BarcodeScanner.Mobile;assembly=BarcodeScanner.Mobile.Maui">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:ScanPageViewModel x:Key="scanText" ScanText="Начните сканировать..."/>
+            <local:ScanPageViewModel x:Key="scanPage"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid BindingContext="{StaticResource scanText}" >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="tbOperatingMode" Text="{Binding Source={StaticResource scanPage},  Path=ScanChoose}" Clicked="ScanFormat_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <Grid  BindingContext="{StaticResource scanPage}" BackgroundColor="Black">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="65"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Image x:Name="imgVerification" 
                Source="Resources/Images/verification.svg" 
-               Grid.Row="1" 
+               Grid.Row="2" 
                ZIndex="2" 
                VerticalOptions="Center" 
                HorizontalOptions="Center" 
                HeightRequest="150" 
                IsVisible="false"/>
 
-        <Label x:Name="lbScanText"
-            Grid.Row="0"
-            Text="{Binding Path=ScanText}"
-            FontSize="18"
-            BackgroundColor="Black"
-            TextColor="White"
-            Opacity="0.9"
-            ZIndex="1"
-            VerticalTextAlignment="Center"
-            HorizontalTextAlignment="Center"
-            VerticalOptions="Fill" 
-            HorizontalOptions="Fill"/>
 
-        <scaner:CameraView
-            x:Name="Scaner"
-            Grid.Row="1"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand"            
-            TorchOn="False"
-            VibrationOnDetected="True"
-            ScanInterval="50"
-            Scale="2.0"
-            OnDetected="CameraView_OnDetected"/>
+        <ScrollView Grid.Row="0" 
+               BackgroundColor="Black" 
+               VerticalOptions="FillAndExpand"
+               HorizontalOptions="FillAndExpand"
+               Padding="10"
+               Opacity="0.9">
+            <VerticalStackLayout>
+                <Label x:Name="lbScanText"                
+                        Text="{Binding ScanElement.Barcode}"
+                        FontSize="18"
+                        TextColor="White"
+                        VerticalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"/>
+                <Label               
+                        Text="{Binding ScanElement.Name}"
+                        FontSize="18"
+                        TextColor="White"
+                        VerticalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"/>
+                <Label
+                        Text="{Binding ScanElement.Details}"
+                        FontSize="18"
+                        TextColor="White"
+                        VerticalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </ScrollView>
 
-        <Grid 
+        <!--<HorizontalStackLayout Grid.Row="1" 
+                               BindingContext="{Binding ScanElement}" 
+                               HorizontalOptions="CenterAndExpand"
+                               ZIndex="1">
+            <Frame Padding="5" Margin="5">
+                <HorizontalStackLayout>
+                    <Label Text="Отсканированно:" VerticalTextAlignment="Center"/>
+                    <Entry x:Name="CountLeft"           
+                    Text="{Binding Path=CountScanned}"
+                    HorizontalOptions="Center"
+                    FontSize="21"
+                    Keyboard="Numeric"
+                    MinimumWidthRequest="21"/>
+                </HorizontalStackLayout>
+
+            </Frame>
+            <Frame Padding="5" Margin="5">
+                <HorizontalStackLayout>
+                    <Label Text="Отсканированно:" VerticalTextAlignment="Center"/>
+                    <Entry       
+                    Text="{Binding Path=CountScanned}"
+                    HorizontalOptions="Center"
+                    FontSize="21"
+                    Keyboard="Numeric"
+                    MinimumWidthRequest="21"/>
+                </HorizontalStackLayout>
+            </Frame>
+        </HorizontalStackLayout>-->
+
+
+        <scaner:CameraView x:Name="Scaner"
+                Grid.Row="2"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                TorchOn="False"
+                VibrationOnDetected="True"
+                ScanInterval="5"
+                CaptureQuality="Highest" 
+                           
+                OnDetected="CameraView_OnDetected"/>
+
+        <Grid Grid.Row="3" ColumnDefinitions="*,*,*" HorizontalOptions="CenterAndExpand" >
+            <ImageButton x:Name="QRCode"
+                         StyleId="QRCode"
+                         Clicked="SwitchTo_Clicked"
+                         Source="qrcode.svg" 
+                         Grid.Column="0" 
+                         Padding="10" 
+                         HeightRequest="70" 
+                         WidthRequest="70" 
+                         BackgroundColor="Black" 
+                         Opacity="0.5" 
+                         CornerRadius="25" 
+                         VerticalOptions="EndAndExpand" 
+                         Margin="10,0,10,10"/>
+            <ImageButton Source="flashlight.svg" 
+                         Clicked="Flashlight_Clicked"
+                         Grid.Column="1" 
+                         Padding="20" 
+                         HeightRequest="120" 
+                         WidthRequest="120"  
+                         BackgroundColor="Black" 
+                         Opacity="0.5" 
+                         CornerRadius="40"
+                         Margin="0,0,0,20"/>
+            <ImageButton x:Name="Barcode"
+                         StyleId="Barcode"
+                         Clicked="SwitchTo_Clicked"
+                         Source="barcode.svg" 
+                         Grid.Column="2" 
+                         Padding="10" 
+                         HeightRequest="70" 
+                         WidthRequest="70" 
+                         BackgroundColor="Black" 
+                         Opacity="0.5" 
+                         CornerRadius="25" 
+                         VerticalOptions="End" 
+                         Margin="10,0,0,10"/>
+        </Grid>
+
+        <Frame Grid.Row="4" HeightRequest="45" Padding="0" Margin="5,20">
+            <Grid ColumnDefinitions="*,*" BackgroundColor="Black" ColumnSpacing="1">
+                <Button Text="Редактировать" 
+                        Style="{StaticResource ButtonCornerRadius}" 
+                        Clicked="ButtonEdit_Clicked"
+                        Grid.Column="0"/>
+                <Button Text="Список" 
+                        Style="{StaticResource ButtonCornerRadius}"
+                        Clicked="ButtonList_Clicked"
+                        Grid.Column="1"/>
+            </Grid>
+        </Frame>
+
+        <!--<Grid 
             Grid.Row="2" 
             Padding="10" 
             ColumnSpacing="10" 
@@ -72,13 +172,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Text="Редактировать" Grid.Row="0" Grid.Column="0" Clicked="ButtonEdit_Clicked"/>
-            <Button Text="Список" Grid.Row="0" Grid.Column="1" Clicked="ButtonList_Clicked"/>
-            <!--<Button Text="Отправить" Grid.Row="1" Grid.ColumnSpan="2" Clicked="ButtonSend_Clicked"/>-->
 
-            <HorizontalStackLayout>
-                
-            </HorizontalStackLayout>
-        </Grid>
+            <Button Text="Отправить" Grid.Row="1" Grid.ColumnSpan="2" Clicked="ButtonSend_Clicked"/>
+        </Grid>-->
     </Grid>
 </ContentPage>

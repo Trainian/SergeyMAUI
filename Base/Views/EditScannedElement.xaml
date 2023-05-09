@@ -4,9 +4,10 @@
              x:Class="Base.Views.EditScannedElement"
              Title="Редактирование">
     <VerticalStackLayout
-        Padding="15,0,15,0"
+        Padding="10,0,10,0"
         VerticalOptions="Center" 
         HorizontalOptions="Center"
+        WidthRequest="300"
         Spacing="10">
         <Frame>
             <VerticalStackLayout>
@@ -15,7 +16,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Entry x:Name="ScannedCode" 
-                Text="{Binding ScannedCode}"
+                Text="{Binding Barcode}"
                 HorizontalOptions="Center"
                 FontSize="21"
                 Keyboard="Numeric"
@@ -43,7 +44,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Entry x:Name="CountLeft" 
-                Text="{Binding QuantityLeft}"
+                Text="{Binding QuantityLeftNew}"
                 HorizontalOptions="Center"
                 FontSize="21"
                 Keyboard="Numeric"
@@ -58,7 +59,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Entry x:Name="Price" 
-                Text="{Binding Price}"
+                Text="{Binding PriceNew}"
                 HorizontalOptions="Center"
                 FontSize="21"
                 Keyboard="Numeric"
@@ -73,7 +74,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
                 <Entry x:Name="CountChoise" 
-                Text="{Binding CountChoise}"
+                Text="{Binding CountScanned}"
                 HorizontalOptions="Center"
                 FontSize="21"
                 Keyboard="Numeric"

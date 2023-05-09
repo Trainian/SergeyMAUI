@@ -8,7 +8,7 @@
     Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
-        Title="Домашняя"
+        Title="Главная"
         ContentTemplate="{DataTemplate local:MainPage}"
         Icon="home.svg"
         Route="MainPage"/>
@@ -19,6 +19,13 @@
         Icon="webcam.svg"
         ContentTemplate="{DataTemplate local:ScanPage}"
         Route="ScanPage"/>
+    
+    <ShellContent
+        x:Name="ScanDelivery2"
+        Title="Сканирование Test"
+        Icon="webcam.svg"
+        ContentTemplate="{DataTemplate local:ScanPage2}"
+        Route="ScanPage2"/>
 
     <ShellContent
         Title="Голосовой помощник"
@@ -39,7 +46,7 @@
                        TextColor="GhostWhite"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"/>
-                <Label Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{0:MMMM dd, yyyy}'}"
+                <Label Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{0:dd MMMM yyyy}'}"
                        TextColor="GhostWhite"
                        HorizontalOptions="Center" />
             </StackLayout>

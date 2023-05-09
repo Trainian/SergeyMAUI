@@ -2,75 +2,134 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Base.Views.ScannedList"
+             xmlns:cc="clr-namespace:Base.CustomControls"
              Title="Список">
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.0"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.22"/>
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
     <StackLayout Orientation="Vertical">
-        <StackLayout.Resources>
-            <ResourceDictionary>
-                <Style x:Key="ButtonCornerRadius" TargetType="{x:Type Button}">
-                    <Setter Property="CornerRadius" Value="0"/>
-                </Style>
-            </ResourceDictionary>
-        </StackLayout.Resources>
         <Grid VerticalOptions="FillAndExpand" RowDefinitions="*" ColumnDefinitions="*">
             <CollectionView
-                x:Name="scannedCollection" 
+                x:Name="scannedCollection"
                 ItemsSource="{Binding ScannedCodes}"
                 VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="1"/>
-                            </Grid.ColumnDefinitions>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem IconImageSource="remove.svg" BackgroundColor="{StaticResource Remove}" Clicked="SwipeItem_Delete_Clicked"/>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItem IconImageSource="edit.svg" BackgroundColor="{StaticResource Edit}" Clicked="SwipeItem_Edit_Clicked"/>
+                            </SwipeView.RightItems>
+                            <Grid Padding="15,5,15,0" Style="{StaticResource GridBackgroundOpacityGrey}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding ScannedCode}"
+                                <Label Text="{Binding Barcode}"
                                    Grid.Row="0"
                                    Grid.Column="0"
                                    FontAttributes="Bold"
                                    FontSize="20"
                                    VerticalTextAlignment="Center"/>
-                            <Label Text="{Binding Name}"
+                                <Label Text="{Binding Name}"
                                    Grid.Row="1"
                                    Grid.Column="0"/>
-                            <HorizontalStackLayout
+                                
+                                <HorizontalStackLayout
                                    Grid.Row="2"
                                    Grid.Column="0">
-                                <Label Text="Остаток: "/>
-                                <Label Text="{Binding QuantityLeft}"/>
-                                <Label Text="шт. ,цена: "/>
-                                <Label Text="{Binding Price}"/>
-                                <Label Text="руб."/>
-                            </HorizontalStackLayout>
-                            <Entry x:Name="Count"
-                                Text="{Binding CountChoise}"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Keyboard="Numeric"
-                                HorizontalTextAlignment="Center"
-                                FontSize="20"
-                                HeightRequest="45"/>
-                            <Button x:Name="Delete"
+                                    <Label Text="Остаток: "/>
+                                    <Label Text="{Binding QuantityLeftNew}"/>
+                                    <Label Text="шт. ,цена: "/>
+                                    <Label Text="{Binding PriceNew}"/>
+                                    <Label Text="руб."/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Grid.Row="3"
+                                    Grid.Column="0">
+                                    <Label Text="акцизов: "/>
+                                    <Label Text="{Binding QRCodesCount}"/>
+                                    <Label Text="шт. "/>
+                                </HorizontalStackLayout>
+                                <Label Text="Кол-во:" 
+                                       HorizontalTextAlignment="Center"
+                                       Grid.Row="0" 
+                                       Grid.Column="2"/>
+                                <Entry x:Name="Count"
+                                    Text="{Binding CountScanned}"
+                                    Grid.Row="1"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="2"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="Center"
+                                    FontSize="20"
+                                    BackgroundColor="AliceBlue"
+                                    HeightRequest="45"/>
+                                <!--<Button x:Name="Delete"
                                 Clicked="Delete_Clicked"
                                 Text="Удалить"
                                 Grid.Row="1"
                                 Grid.RowSpan="2"
                                 Grid.Column="1"
-                                Margin="0,0,0,10"/>
-                            <BoxView Grid.ColumnSpan="3" Grid.Row="2" VerticalOptions="End" BackgroundColor="AliceBlue" HeightRequest="1"/>
-                        </Grid>
+                                Margin="0,0,0,10"/>-->
+
+                                <CollectionView ItemsSource="{Binding Path=QRCodes}" IsVisible="{Binding Path=IsVisibleQRCodes}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,5,15">
+                                    <CollectionView.ItemTemplate>                                        
+                                        <DataTemplate>
+                                            <SwipeView>
+                                                <SwipeView.LeftItems>
+                                                    <SwipeItem Text="Left"/>
+                                                </SwipeView.LeftItems>
+                                                <Frame Margin="2">
+                                                    <Label Text="{Binding}"/>
+                                                </Frame>
+                                            </SwipeView>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                
+                                <ImageButton 
+                                    Clicked="ButtonQRCodes_Clicked" 
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    Grid.Row="3" 
+                                    Grid.RowSpan="3"
+                                    HeightRequest="25"
+                                    WidthRequest="75"
+                                    Source="downarrow.svg"    
+                                    Background="{StaticResource Gray100}"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="EndAndExpand"/>
+                                <BoxView Grid.ColumnSpan="3" Grid.Row="5" VerticalOptions="End" BackgroundColor="AliceBlue" HeightRequest="1"/>
+                            </Grid>
+                        </SwipeView>                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <BoxView x:Name="BoxViewLoading" Opacity="0.4" IsVisible="False"/>
+            <cc:LoadControl x:Name="ccLoader" IndicatorColor="Green" IndicatorText="Отправка..." IsVisible="False"/>
 
+            <!--<BoxView x:Name="BoxViewLoading" Opacity="0.4" IsVisible="False"/>
+            
             <Image x:Name="ImageLoading" 
                    Source="loading.gif" 
                    IsAnimationPlaying="True" 
@@ -78,7 +137,7 @@
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" 
                    IsVisible="False"
-                   ZIndex="2"/>
+                   ZIndex="2"/>-->
         </Grid>
         <!--<Border StrokeThickness="2" StrokeShape="RoundRectangle 5,5,5,5">
             <Picker Title="Список действий" HorizontalTextAlignment="Center" Margin="5" FontAttributes="Bold">
@@ -89,9 +148,9 @@
                 </Picker.Items>
             </Picker>
         </Border>-->
-        <Frame HeightRequest="50" Padding="0" Margin="5">
+        <Frame HeightRequest="50" Padding="0" Margin="5,15">
             <Grid ColumnDefinitions="100,*" HeightRequest="50">
-                <Button x:Name="ButtonClear" Style="{StaticResource ButtonCornerRadius}" Grid.Column="0" Text="Очистить" Clicked="ButtonClear_Clicked" BackgroundColor="Red"/>
+                <Button x:Name="ButtonClear" Style="{StaticResource ButtonCornerRadius}" Grid.Column="0" Text="Очистить" Clicked="ButtonClear_Clicked" BackgroundColor="{StaticResource Remove}"/>
                 <Button x:Name="ButtonSend" Style="{StaticResource ButtonCornerRadius}" Grid.Column="1" Text="Отправить" Clicked="ButtonSend_Clicked"/>
             </Grid>
         </Frame>

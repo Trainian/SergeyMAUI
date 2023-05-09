@@ -1,51 +1,100 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cc="clr-namespace:Base.CustomControls"
+             xmlns:local="clr-namespace:Base.ViewModels"
              x:Class="Base.Views.SettingsPage"
              Title="Настройки">
-    <Grid Margin="10">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:SettingsPageViewModel x:Key="settingsPage"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.0"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.22"/>
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <Grid Margin="10" BindingContext="{StaticResource settingsPage}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
-        <VerticalStackLayout Grid.Row="0" Spacing="25">
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
             <VerticalStackLayout>
                 <Label Text="Логин*"/>
                 <Entry x:Name="Login"
-               BackgroundColor="AliceBlue" />
+                       Text="{Binding Login}"
+                       BackgroundColor="AliceBlue" />
             </VerticalStackLayout>
             <VerticalStackLayout>
                 <Label Text="Пароль*"/>
                 <Entry x:Name="Password"
-               BackgroundColor="AliceBlue" />
+                       Text="{Binding Password}"
+                       BackgroundColor="AliceBlue" 
+                       IsPassword="True"/>
             </VerticalStackLayout>
-            <VerticalStackLayout>
+            <VerticalStackLayout IsVisible="false">
                 <Label Text="Строка подключения*"/>
                 <Entry x:Name="ConnectionString"
-               BackgroundColor="AliceBlue" />
+                       Text="{Binding ConnectionString}"
+                       BackgroundColor="AliceBlue" 
+                       Keyboard="Url"/>
             </VerticalStackLayout>
             <VerticalStackLayout>
                 <Label Text="Срок оплаты"/>
                 <Entry x:Name="PayDate"
-               IsReadOnly="true"
-               BackgroundColor="AliceBlue"/>
+                       Text="{Binding PayDate}"
+                       IsReadOnly="true"
+                       BackgroundColor="AliceBlue"/>
             </VerticalStackLayout>
             <VerticalStackLayout>
-                <Label Text="Ваш идентификатор"/>
+                <Label Text="Ваш идентификатор**"/>
                 <Entry x:Name="Guid"
-               IsReadOnly="true"
-               BackgroundColor="AliceBlue"/>
+                       Text="{Binding Guid}"
+                       BackgroundColor="AliceBlue"/>
+            </VerticalStackLayout>            
+            <VerticalStackLayout>
+                <Label Text="Организация"/>
+                <Picker x:Name="Organization"
+                        SelectedItem="{Binding Organization}"
+                        BackgroundColor="AliceBlue"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Склад"/>
+                <Picker x:Name="Warehouse"
+                        SelectedItem="{Binding Warehouse}"
+                        BackgroundColor="AliceBlue"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="Вид цен"/>
+                <Picker x:Name="TypeOfPrices"
+                        SelectedItem="{Binding TypeOfPrices}"
+                        BackgroundColor="AliceBlue"/>
             </VerticalStackLayout>
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Spacing="10">
-            <Button x:Name="ChooseSettings"
-                Text="Проверить настройки"
-                    Clicked="ChooseSettings_Clicked"/>
+            <Button x:Name="VerifySettings"
+                    Text="{Binding VerifyText}"
+                    Clicked="VerifySettings_Clicked"/>
             <Button x:Name="Save"
-                Text="Сохранить"
+                    Text="Сохранить"
                     Clicked="Save_Clicked"/>
         </VerticalStackLayout>
+
+        <cc:LoadControl x:Name="ccLoadControl" 
+                        IndicatorColor="Green" 
+                        IndicatorText="Проверка соединения..." 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="CenterAndExpand" 
+                        IsVisible="False" 
+                        IsEnabled="True"/>
     </Grid>
 </ContentPage>

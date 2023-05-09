@@ -41,4 +41,9 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
+    <!--Кастомные настройки-->
+    <Color x:Key="Edit">#00C7C7</Color>
+    <Color x:Key="Remove">#BF0000</Color>
+    <Color x:Key="BackgroundOpacityGrey">#ccababab</Color>
+    
 </ResourceDictionary>

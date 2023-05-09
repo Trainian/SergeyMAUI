@@ -1,38 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cc="clr-namespace:Base.CustomControls"
              x:Class="Base.Views.MainPage">
-
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Привет, Мир!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Тестовое приложение, для работы с камерой и микрофоном."
-                SemanticProperties.HeadingLevel="Level2"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Кликер"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.0"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.22"/>
+            <GradientStop Color="{StaticResource Blue200Accent}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Primary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="0.38"/>
+            <GradientStop Color="{StaticResource Secondary}" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <Grid RowDefinitions="150,*,50" Margin="10">
+        <Label Text="С возвращением !" FontSize="Large" FontAttributes="Bold"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0"/>
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="300" Spacing="20" Grid.Row="1">
+            <Label x:Name="lblConnectionText" Text="" FontSize="Subtitle" TextType="Html"/>
         </VerticalStackLayout>
-    </ScrollView>
+        <cc:LoadControl x:Name="ccLoadControl" IndicatorColor="Green" IndicatorText="Проверка соединения..." VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="False" Grid.RowSpan="3" IsEnabled="True"/>
+        <Button Grid.Row="2" Style="{StaticResource ButtonCornerRadius}" Text="Переподключиться" Clicked="Button_Reconnection_Clicked" CornerRadius="10"/>
+    </Grid>
 
 </ContentPage>
